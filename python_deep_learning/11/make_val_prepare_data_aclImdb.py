@@ -2,7 +2,7 @@ from tensorflow import keras
 import os, pathlib, shutil, random
 from keras import layers
 
-batch_size = 32
+
 base_dir = pathlib.Path("/home/binbin/dl/python_deep_learning/aclImdb")
 val_dir = base_dir / "val"
 train_dir = base_dir / "train"
@@ -17,7 +17,9 @@ for category in ("neg", "pos"):
         for fname in val_files:
             shutil.move(train_dir / category / fname,
                         val_dir / category / fname)
-        
+
+batch_size = 32
+# tf.data
 train_ds = keras.utils.text_dataset_from_directory(
     "/home/binbin/dl/python_deep_learning/aclImdb/train", batch_size=batch_size
 )
@@ -28,23 +30,32 @@ test_ds = keras.utils.text_dataset_from_directory(
     "/home/binbin/dl/python_deep_learning/aclImdb/test", batch_size=batch_size
 )
 
-max_length = 600
-max_tokens = 20000
-text_vectorization = layers.TextVectorization(
-    max_tokens=max_tokens,
-    output_mode="int",
-    output_sequence_length=max_length,
-)
+print("train_ds")
+for inputs, targets in train_ds:
+    print("input shape:", inputs.shape)
+    print("input shape:", inputs.dtype)
+    print("targets shape:", targets.shape)
+    print("targets shape:", targets.dtype)
+    print("input[0]:", targets.shape)
+    print("targets[0]:", targets.dtype)
+    break
 
-text_only_train_ds = train_ds.map(lambda x, y: x)
-text_vectorization.adapt(text_only_train_ds)
+print("val_ds")
+for inputs, targets in val_ds:
+    print("input shape:", inputs.shape)
+    print("input shape:", inputs.dtype)
+    print("targets shape:", targets.shape)
+    print("targets shape:", targets.dtype)
+    print("input[0]:", targets.shape)
+    print("targets[0]:", targets.dtype)
+    break
 
-int_train_ds = train_ds.map(
-    lambda x, y: (text_vectorization(x), y),
-    num_parallel_calls=4)
-int_val_ds = val_ds.map(
-    lambda x, y: (text_vectorization(x), y),
-    num_parallel_calls=4)
-int_test_ds = test_ds.map(
-    lambda x, y: (text_vectorization(x), y),
-    num_parallel_calls=4)
+print("test_ds")
+for inputs, targets in test_ds:
+    print("input shape:", inputs.shape)
+    print("input shape:", inputs.dtype)
+    print("targets shape:", targets.shape)
+    print("targets shape:", targets.dtype)
+    print("input[0]:", targets.shape)
+    print("targets[0]:", targets.dtype)
+    break

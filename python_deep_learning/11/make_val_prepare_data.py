@@ -36,7 +36,6 @@ text_vectorization = layers.TextVectorization(
     output_sequence_length=max_length,
 )
 
-text_only_train_ds = train_ds.map(lambda x, y: x)
 text_vectorization.adapt(text_only_train_ds)
 
 int_train_ds = train_ds.map(

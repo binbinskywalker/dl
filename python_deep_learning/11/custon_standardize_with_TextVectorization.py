@@ -1,7 +1,7 @@
 import re
 import string
 import tensorflow as tf
-from keras.layers import TextVectorization
+from tensorflow.keras.layers import TextVectorization
 
 
 def custom_standardization_fn(string_tensor):
